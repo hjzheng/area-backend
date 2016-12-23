@@ -39,16 +39,10 @@ function search(keyword, limit){
 function city(provinceId) {
 	let sql = `select cityID as id, city as name from city where fatherID = ${provinceId}`;
 
-	console.log(sql);
-
 	if (specialIds.indexOf(provinceId) !== -1) {
 		sql = `select a.areaID as id, a.area as name from 
 		(select cityID from city where fatherID = ${provinceId}) as c left join area a on c.cityID = a.fatherID`;
-
-		console.log(sql);
 	}
-
-	console.log(sql);
 
 	return connection.createStatement(sql);
 }

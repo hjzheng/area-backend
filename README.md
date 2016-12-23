@@ -3,7 +3,7 @@
 
 ### 使用方法
 
-1. 安装 mysql 可以参考官方文档 (这里以 homebrew 为例) 并配置
+#### 1.安装 mysql 可以参考官方文档 (这里以 homebrew 为例) 并配置
 
 ```
 shell> brew install mysql
@@ -30,13 +30,13 @@ mysql> \. file_name
 配置数据库连接信息 见 config 目录中的 db.yml
 
 
-2. 启动 node server (记着 npm install 先)
+#### 2.启动 node server (记着 npm install 先)
 
 ```
 shell> node server.js
 ```
 
-3. API
+#### 3.API
 
 根据 provinceIds 查询省名称, 参数 provinceIds 格式 `provinceId, provinceIds, ...`
 - /areas/province?provinceIds=110000,120000,140000
