@@ -6,7 +6,8 @@ let loadYaml = require('../util/loadYaml');
 
 let dbConfig = loadYaml(path.join(__dirname, '../../config/db.yml'));
 
-let connection = mysql.createConnection({
+var pool = mysql.createPool({
+	connectionLimit : 10,
 	user: dbConfig.user,
 	password: dbConfig.password,
 	host: dbConfig.host,
@@ -14,10 +15,14 @@ let connection = mysql.createConnection({
 	database: dbConfig.database
 });
 
+pool.on('connection', function (conn) {
+	conn.query('SET SESSION group_concat_max_len = 1000000');
+});
+
 let createStatement = function(sql) {
 	var deferred = q.defer();
 
-	connection.query(sql, (err, rows) => {
+	pool.query(sql, (err, rows) => {
 		if (err) {
 			deferred.reject(err);
 		} else {

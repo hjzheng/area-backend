@@ -1,4 +1,21 @@
 'use strict';
+/**
+
+ SET SESSION group_concat_max_len = 1000000;
+
+ select GROUP_CONCAT(JSON_OBJECT('id', p.provinceID, 'name', p.province, 'child', ca.child)) as child
+
+ from province p left join
+
+ (
+ select c.fatherID as id, CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', c.cityID, 'name', c.city, 'child', a.child)), ']') as JSON) as child
+ from city c left join
+ (select fatherID as id, CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', areaID, 'name', area)), ']') as JSON) as child from area group by fatherID) a on c.cityID = a.id group by c.fatherID) ca
+
+ on ca.id = p.provinceID group by p.provinceID;
+ 
+ * */
+
 let connection = require('../common/db/connection');
 
 let specialIds = ['110000', '120000', '500000', '310000'];
@@ -60,10 +77,35 @@ function area(cityId) {
 	return connection.createStatement(sql);
 }
 
+function getAllAreas() {
+	let sql = `
+    select 
+        CAST(GROUP_CONCAT(JSON_OBJECT('id', p.provinceID, 'name', p.province, 'child', ca.child)) as JSON)as child
+    from 
+        province p 
+    left join
+		(
+		 select 
+		    c.fatherID as id, 
+		    CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', c.cityID, 'name', c.city, 'child', a.child)), ']') as JSON) as child
+		from 
+			city c 
+		left join
+			(select fatherID as id, CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', areaID, 'name', area)), ']') as JSON) as child 
+			from area group by fatherID) a 
+
+		on c.cityID = a.id group by c.fatherID) ca
+
+	on ca.id = p.provinceID group by p.provinceID`;
+	
+	return connection.createStatement(sql);
+}
+
 module.exports = {
 	test: connection.createStatement('SELECT 1'),
 	search: search,
 	area: area,
 	city: city,
-	province: province
+	province: province,
+	getAllAreas: getAllAreas
 };

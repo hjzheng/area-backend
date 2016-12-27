@@ -42,6 +42,14 @@ function areaRouter(router, basePath) {
 			res.status(500).send({ error: err });
 		});
 	});
+
+	router.get(basePath + '/all', (req, res, next) => {
+		area.getAllAreas().then(data => {
+			res.send(data.map(d => JSON.parse(d.child)));
+		}).fail(err => {
+			res.status(500).send({ error: err });
+		});
+	});
 }
 
 module.exports = areaRouter;
