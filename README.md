@@ -38,6 +38,29 @@ shell> node server.js
 
 #### 3.API
 
+**目前地区选择器的做法, 只需要一个 API, 如下:**
+
+- /areas/all
+
+```json
+[{
+    "id": 110000,
+    "name": "北京市",
+    "children": [{
+        "id": 110100,
+        "name": "市辖区",
+        "children": [{
+            "id": 110101,
+            "name": "东城区"
+        }, {
+            "id": 110102,
+            "name": "西城区"
+        }, {
+  ... ...
+```
+
+**其他API:**
+
 根据 provinceIds 查询省名称, 参数 provinceIds 格式 `provinceId, provinceIds, ...`
 - /areas/province?provinceIds=110000,120000,140000
 
