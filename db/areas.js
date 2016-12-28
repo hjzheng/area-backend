@@ -80,14 +80,14 @@ function area(cityId) {
 function getAllAreas() {
 	let sql = `
     select 
-        CAST(GROUP_CONCAT(JSON_OBJECT('id', p.provinceID, 'name', p.province, 'child', ca.child)) as JSON)as child
+        CAST(GROUP_CONCAT(JSON_OBJECT('id', p.provinceID, 'name', p.province, 'children', ca.child)) as JSON)as child
     from 
         province p 
     left join
 		(
 		 select 
 		    c.fatherID as id, 
-		    CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', c.cityID, 'name', c.city, 'child', a.child)), ']') as JSON) as child
+		    CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', c.cityID, 'name', c.city, 'children', a.child)), ']') as JSON) as child
 		from 
 			city c 
 		left join
