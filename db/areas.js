@@ -1,4 +1,5 @@
 'use strict';
+
 /**
 
  SET SESSION group_concat_max_len = 1000000;
@@ -80,18 +81,18 @@ function area(cityId) {
 function getAllAreas() {
 	let sql = `
     select 
-        CAST(GROUP_CONCAT(JSON_OBJECT('id', p.provinceID, 'name', p.province, 'children', ca.child)) as JSON)as child
+        CAST(GROUP_CONCAT(JSON_OBJECT('id', p.provinceID, 'name', p.province, 'children', ca.child, 'level', 1)) as JSON)as child
     from 
         province p 
     left join
 		(
 		 select 
 		    c.fatherID as id, 
-		    CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', c.cityID, 'name', c.city, 'children', a.child)), ']') as JSON) as child
+		    CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', c.cityID, 'name', c.city, 'children', a.child, 'level', 2)), ']') as JSON) as child
 		from 
 			city c 
 		left join
-			(select fatherID as id, CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', areaID, 'name', area)), ']') as JSON) as child 
+			(select fatherID as id, CAST(CONCAT('[', GROUP_CONCAT(JSON_OBJECT('id', areaID, 'name', area, 'level', 3)), ']') as JSON) as child 
 			from area group by fatherID) a 
 
 		on c.cityID = a.id group by c.fatherID) ca
