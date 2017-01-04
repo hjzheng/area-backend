@@ -44,19 +44,24 @@ shell> node server.js
 
 ```json
 [{
-    "id": 110000,
-    "name": "北京市",
-    "children": [{
-        "id": 110100,
-        "name": "市辖区",
-        "children": [{
-            "id": 110101,
-            "name": "东城区"
-        }, {
-            "id": 110102,
-            "name": "西城区"
-        }, {
-  ... ...
+	"id": 110000,
+	"name": "北京市",
+	"level": 1,
+	"children": [{
+		"id": 110100,
+		"name": "市辖区",
+		"level": 2,
+		"children": [
+		    {
+		      "id": 110101,
+		      "name": "东城区",
+		      "level": 3
+		    }, {
+			  "id": 110102,
+			  "name": "西城区",
+			  "level": 3
+	        }
+    // ... ...
 ```
 
 **其他API:**
