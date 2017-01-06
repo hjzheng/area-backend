@@ -1,19 +1,15 @@
-'use strict';
+import yaml from 'js-yaml';
+import fs from 'fs';
 
-let yaml = require('js-yaml');
-let fs = require('fs');
-
-function loadYaml(file) {
+export default function loadYaml(file) {
 
 	try {
-		var doc = yaml.load(
+		const doc = yaml.load(
 			fs.readFileSync(file, 'utf8')
 		);
+
+		return doc;
 	} catch (e) {
-		throw new Error('can not get file');
+		throw new Error(`can not load file ${file}`);
 	}
-
-	return doc;
 }
-
-module.exports = loadYaml;

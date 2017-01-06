@@ -1,12 +1,11 @@
-'use strict';
-let path = require('path');
-let q = require('q');
-let mysql = require('mysql');
-let loadYaml = require('../util/loadYaml');
+import path from 'path';
+import q from 'q';
+import mysql from 'mysql';
+import loadYaml from '../util/loadYaml';
 
-let dbConfig = loadYaml(path.join(__dirname, '../../config/db.yml'));
+const dbConfig = loadYaml(path.join(__dirname, '../../config/db.yml'));
 
-var pool = mysql.createPool({
+const pool = mysql.createPool({
 	connectionLimit : 10,
 	user: dbConfig.user,
 	password: dbConfig.password,
@@ -15,12 +14,12 @@ var pool = mysql.createPool({
 	database: dbConfig.database
 });
 
-pool.on('connection', function (conn) {
+pool.on('connection', conn => {
 	conn.query('SET SESSION group_concat_max_len = 1000000');
 });
 
-let createStatement = function(sql) {
-	var deferred = q.defer();
+const createStatement = function(sql) {
+	const deferred = q.defer();
 
 	pool.query(sql, (err, rows) => {
 		if (err) {
@@ -33,6 +32,6 @@ let createStatement = function(sql) {
 	return deferred.promise;
 };
 
-module.exports = {
-	createStatement: createStatement
+export default {
+	createStatement
 };

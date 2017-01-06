@@ -1,5 +1,4 @@
-'use strict';
-let area = require('../db/areas');
+import area from '../db/areas';
 
 function areaRouter(router, basePath) {
 
@@ -52,4 +51,4 @@ function areaRouter(router, basePath) {
 	});
 }
 
-module.exports = areaRouter;
+export default areaRouter;

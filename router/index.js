@@ -1,9 +1,8 @@
-'use strict';
-let express = require('express');
-let router = express.Router();
+import express from 'express';
+import areas from './areas';
 
-let areas = require('./areas');
+const router = express.Router();
 
 areas(router, '/areas');
 
-module.exports = router;
+export default router;

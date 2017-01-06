@@ -1,5 +1,3 @@
-'use strict';
-
 /**
 
  SET SESSION group_concat_max_len = 1000000;
@@ -17,7 +15,7 @@
  
  * */
 
-let connection = require('../common/db/connection');
+import connection from '../common/db/connection';
 
 // let specialIds = ['110000', '120000', '500000', '310000'];
 
@@ -102,11 +100,11 @@ function getAllAreas() {
 	return connection.createStatement(sql);
 }
 
-module.exports = {
+export default {
 	test: connection.createStatement('SELECT 1'),
-	search: search,
-	area: area,
-	city: city,
-	province: province,
-	getAllAreas: getAllAreas
+	search,
+	area,
+	city,
+	province,
+	getAllAreas
 };
